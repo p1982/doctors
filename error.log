@@ -1,0 +1,7 @@
+2024-07-23T07:35:28.628Z error: Unexpected token { in JSON at position 20
+2024-07-23T07:39:52.468Z error: Unexpected token { in JSON at position 20
+2024-07-23T07:40:54.690Z error: Unexpected token { in JSON at position 20
+2024-07-23T07:44:33.753Z error: Cannot read properties of undefined (reading 'appointmentService')
+2024-07-23T07:47:23.526Z error: Cannot read properties of undefined (reading 'appointmentService')
+2024-07-23T07:52:04.000Z error: Cannot read properties of undefined (reading 'appointmentsService')
+2024-07-24T12:44:45.364Z error: Unexpected token a in JSON at position 16

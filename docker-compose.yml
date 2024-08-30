@@ -1,0 +1,91 @@
+# # version: '3.7'
+# # services:
+# #   node-server:
+# #     build:
+# #       context: ./server
+# #       dockerfile: Dockerfile
+# #     container_name: node-server
+# #     ports:
+# #       - "3001:3001"
+# #     volumes:
+# #       - ./server:/usr/src
+# #       - /usr/src/node_modules
+# #     environment:
+# #       - PORT=${PORT}
+# #       - HOST=${HOST}
+# #       - SECRET_KEY=${SECRET_KEY}
+# #       - DATABASE_URL=${DATABASE_URL}
+# #     command: npm start
+
+# version: '3.7'
+
+# services:
+#   node-server:
+#     build:
+#       context: ./server
+#       dockerfile: Dockerfile
+#     container_name: node-server
+#     ports:
+#       - "3001:3001"
+#     volumes:
+#       - ./server:/usr/src
+#       - /usr/src/node_modules
+#     environment:
+#       - PORT=3001
+#       - HOST=0.0.0.0
+#       - SECRET_KEY=1111122222aABCDEFGHJKLMNPQ
+#       - DATABASE_URL=postgres://postgres:1@db:5432/new  # Строка подключения к базе данных
+#     command: npm start
+#     depends_on:
+#       - db
+
+#   db:
+#     image: postgres
+#     container_name: postgres-db
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: 1
+#       POSTGRES_DB: new
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres-data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres-data:
+    
+
+services:
+  node-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node-server
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/node_modules
+    environment:
+      - PORT=3001
+      - HOST=0.0.0.0
+      - SECRET_KEY=1111122222aABCDEFGHJKLMNPQ
+      - DATABASE_URL=postgres://postgres:1@db:5432/new
+    command: npm start
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: new
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

@@ -1,0 +1,341 @@
+{
+	"info": {
+		"_postman_id": "2f246efd-dc5d-4672-b4d3-3804f8a8f51e",
+		"name": "doctors",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14475207"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jwt = pm.response.json().token\r",
+							"pm.globals.set(\"jwt\", jwt)\r",
+							"\r",
+							"const id = pm.response.json().id\r",
+							"pm.globals.set(\"user_id\", id)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\", \r\n    \"lastName\": \"{{lastName}}\", \r\n    \"firstName\": \"{{firstName}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"birthday\": \"{{birthday}}\",\r\n    \"contactNumber\": \"{{contactNumber}}\",\r\n    \"address\": \"{{address}}\",\r\n    \"medicalHistory\": \"{{medicalHistory}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/auth/register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jwt = pm.response.json().token\r",
+							"pm.globals.set(\"jwt\", jwt)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/auth/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "doctors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/doctors",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"doctors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "doctors_by_spez",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/doctors?specialization={{doctor_spez}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"doctors"
+					],
+					"query": [
+						{
+							"key": "specialization",
+							"value": "{{doctor_spez}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "doctors_by_id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{jwt}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/doctors/{{doctor_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"doctors",
+						"{{doctor_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "appointment_create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jwt = pm.response.json().id\r",
+							"pm.globals.set(\"appointment_id\", id)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{jwt}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"patientId\": {{user_id}},\r\n  \"doctorId\": {{doctor_id}},\r\n  \"appointmentDate\": \"2024-07-26\",\r\n  \"reason\": \"Routine checkup\",\r\n  \"time\": \"9:00:00\",\r\n  \"status\": \"scheduled\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/appointments",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"appointments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "appointment_update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{jwt}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{appointment_id}},\r\n  \"patientId\": {{user_id}},\r\n  \"doctorId\": {{doctor_id}},\r\n  \"appointmentDate\": \"2023-08-01\",\r\n  \"reason\": \"Routine checkup\",\r\n  \"time\": \"10:00:00\",\r\n  \"status\": \"scheduled\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/appointments",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"appointments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_appointment_by_patient_id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{jwt}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/appointments/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"appointments",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_appointment_by_id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{jwt}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/appointments/{{appointment_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"appointments",
+						"{{appointment_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
